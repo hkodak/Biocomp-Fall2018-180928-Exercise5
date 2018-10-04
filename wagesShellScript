@@ -1,0 +1,34 @@
+#Question 1 
+#This will cut the gender and wage columns of the table for question 1
+#it will take out unique value and order them by gender 
+
+cat wages.csv | cut -d ',' -f 1,2 | uniq | tr ',' ' ' | sort -t ',' -nk 1 | sort -t ',' -nk 2 > sex.wages.csv
+
+#Question 2
+#This will give the wage and gender for the highest earner
+a=$(cat wages.csv | sort -t ',' -nk 4 | sort -r | cut -d ',' -f 1,2,4 | uniq | 
+head -1)
+echo this is the highest earner $a
+
+#This will give wage and gender for the lowest earner 
+b=$(cat wages.csv | sort -t ',' -nk 4 | sort -r | cut -d ',' -f 1,2,4 | uniq | 
+tail -1)
+echo this is the lowest earner $b
+
+#This will give the number of females in the top ten earners
+c=$(cat wages.csv | sort -t ',' -nk 4 | sort -r | cut -d ',' -f 1,2,4 | uniq |
+head -10 | grep -c "female")
+echo these are the top ten earners $c
+
+#Question 3
+d=(cat wages.csv | sort -t ',' -nk4 | sort -r | cut -d ',' -f 3,4 | grep -E -c "12|2.7746776749")
+echo this is the number of people making minimum wage with out college eduaction $d
+
+e=(cat wages.csv | sort -t ',' -nk4 | sort -r | cut -d ',' -f 3,4 | grep -E -c "16|2.7746776749")
+echo the number of people making minimum wage with a college education $e 
+
+#Difference between the two
+echo $d - $e | bc
+This is the effect of grduatig college $f 
+#There are more minimum wage earners if you did not go to college than if you did go to college. Going 
+to college decreases your chances of getting minimum wage 
